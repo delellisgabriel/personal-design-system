@@ -1185,6 +1185,15 @@
     polished "^4.2.2"
     ts-dedent "^2.2.0"
 
+"@storybook/addon-links@^8.4.7":
+  version "8.4.7"
+  resolved "https://registry.npmjs.org/@storybook/addon-links/-/addon-links-8.4.7.tgz"
+  integrity sha512-L/1h4dMeMKF+MM0DanN24v5p3faNYbbtOApMgg7SlcBT/tgo3+cAjkgmNpYA8XtKnDezm+T2mTDhB8mmIRZpIQ==
+  dependencies:
+    "@storybook/csf" "^0.1.11"
+    "@storybook/global" "^5.0.0"
+    ts-dedent "^2.0.0"
+
 "@storybook/addon-measure@8.4.7":
   version "8.4.7"
   resolved "https://registry.npmjs.org/@storybook/addon-measure/-/addon-measure-8.4.7.tgz"
@@ -1206,6 +1215,13 @@
   integrity sha512-6LYRqUZxSodmAIl8icr585Oi8pmzbZ90aloZJIpve+dBAzo7ydYrSQxxoQEVltXbKf3VeVcrs64ouAYqjisMYA==
   dependencies:
     "@storybook/global" "^5.0.0"
+    ts-dedent "^2.0.0"
+
+"@storybook/addon-themes@^8.4.7":
+  version "8.4.7"
+  resolved "https://registry.npmjs.org/@storybook/addon-themes/-/addon-themes-8.4.7.tgz"
+  integrity sha512-MZa3eWTz0b3BQvF71WqLqvEYzDtbMhQx1IIluWBMMGzJ4sWBzLX85LoNMUlHsNd4EhEmAZ1xQQFIJpDWTBx0nQ==
+  dependencies:
     ts-dedent "^2.0.0"
 
 "@storybook/addon-toolbars@8.4.7":
@@ -2535,6 +2551,11 @@ client-only@0.0.1:
   version "0.0.1"
   resolved "https://registry.npmjs.org/client-only/-/client-only-0.0.1.tgz"
   integrity sha512-IV3Ou0jSMzZrd3pZ48nLkT9DA7Ag1pnPzaiQhpW7c3RbcqqzvzzVu+L8gfqMp/8IM2MQtSiqaCxrrcfu8I8rMA==
+
+clsx@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.npmjs.org/clsx/-/clsx-2.1.1.tgz"
+  integrity sha512-eYm0QWBtUrBWZWG0d386OGAw16Z995PiOVo2B7bjWSbHedGl5e0ZWaq65kOGgUSNesEIDkB9ISbTg/JK9dhCZA==
 
 color-convert@^2.0.1:
   version "2.0.1"
