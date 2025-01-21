@@ -1,4 +1,4 @@
-import { ComponentProps } from 'react'
+import type { ComponentProps } from 'react'
 import { variants, type ButtonVariants } from './button-variant'
 
 export type Variant = 'primary' | 'secondary' | 'destructive'
