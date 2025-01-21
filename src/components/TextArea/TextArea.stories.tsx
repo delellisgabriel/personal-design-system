@@ -86,18 +86,18 @@ export const LengthTooLong: Story = {
   args: {
     maxLength: 140
   },
-  play: async ({ canvasElement }) => {
+  play: async ({ canvasElement, args }) => {
     const canvas = within(canvasElement)
     const textArea = canvas.getByRole('textbox')
     const count = canvas.getByTestId('length')
 
-    const inputValue = 'Y' + 'o'.repeat(140) + '!'
+    const inputValue = 'H' + 'e'.repeat(args.maxLength || 140) + 'y!'
 
     await userEvent.type(textArea, inputValue)
+
     await expect(count).toHaveTextContent(inputValue.length.toString())
-    await expect(textArea).toHaveAttribute('aria-invalid', 'true')
-    // await expect(count).toHaveClass('ring-danger-500')
+    await expect(textArea).toHaveClass('ring-danger-500')
     await expect(count).toHaveStyle({ color: 'rgb(237, 70, 86)' })
-    await expect(textArea).toHaveStyle({ borderColor: 'rgb(237, 70, 86)' })
+    await expect(textArea).toHaveAttribute('aria-invalid', 'true')
   }
 }
