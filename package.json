@@ -13,6 +13,7 @@
   "dependencies": {
     "@fontsource-variable/inter": "^5.1.1",
     "clsx": "^2.1.1",
+    "lucide-react": "^0.473.0",
     "next": "14.2.23",
     "react": "^18",
     "react-dom": "^18"
