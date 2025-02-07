@@ -1,0 +1,176 @@
+---
+title: "Myths and Truths About useEffect"
+---
+
+## MYTH: YOU NEED TO INCLUDE **EVERYTHIIIIIINNNNNGGGGGGGGG** YOU USE INSIDE A USEEFFECT IN YOUR DEPENDENCY ARRAY, FALSE. ❌
+
+## TRUTH: You should almost always, probably 95% of the times include everything inside the depdendency array
+
+## TRUTH AND REAL
+
+if you're defining your function inside the component, does it actually need to be defined there? could it be a util? could it be a variable that then you can memoize because idk if has some weird heavy result?
+
+Because if you have to redefine your function on every rerender it means that it needs to have ANOTHER DEPENDENCY ARRAY, guess what? the dependency array will have your primitive values
+
+This means that you really are not depending on the function in your dependency array, you depend on your values changing, because that is what you will include in your function dependency array.
+
+## Functions are defined on each rerender inside a component!
+
+This means that if you need to define a function you do it outside and use it with props otherwise it's pretty anoying.
+
+-> You can then move this function into a utils folder 
+-> This means that your code now is more maintainable
+-> Now you can unit test easily.
+-> now you don't want to commit harakiri
+
+If you need to pass down a function that was defined in the body of a component then you have to use useCallback funciton to wrap it.
+
+If you need to pass down the function, does that mean that you need the function definition here? maybe you actually need to define the function down
+
+If you need to prop drill properties and that's why instead you're passing down functions and is causing unneccesary rerenders THEN we might have a bigger problem of poopy (keeping it pg13) state management
+
+## useEffects are for SIDE EFFECTS
+
+```tsx
+import { useEffect, useState } from "react";
+
+const ExampleWithUseEffect = () => {
+  const [userId, setUserId] = useState<null | number>(null);
+
+  useEffect(() => {
+    if (!userId) return;
+    const myApiCall = (userId: number) => fetch(`https://myendpoint.com/hellothere/user/${userId}`);
+
+    myApiCall(userId);
+  }, [userId]);
+
+  return (
+    <div>
+      Hello there, give me your id, it's an order, biach.
+      <button onClick={() => setUserId(1)}>give id 1</button>
+    </div>
+  );
+};
+
+export default ExampleWithUseEffect;
+```
+
+```tsx
+export const BadExample = () => {
+  const a = 1;
+  const b = 10;
+  const [holdNumber, setHoldNumber] = useState(0);
+
+  const sum = (a: number, b: number) => {
+    return a + b;
+  };
+
+  useEffect(() => {
+    const value = sum(a, b);
+    setHoldNumber(value);
+  }, []);
+
+  return <div>{holdNumber}</div>;
+};
+```
+
+```tsx
+const sum = (a: number, b: number) => {
+  return a + b;
+};
+
+export const GoodExample = () => {
+  const a = 1;
+  const b = 10;
+  const [holdNumber, setHoldNumber] = useState(() => sum(a, b));
+
+  return <div>{holdNumber}</div>;
+};
+```
+
+```tsx
+import { useRouter } from "next/router";
+
+// Here you would fetch and return the user, use your imagination
+const useUser = () => ({ user: null, loading: false });
+
+export function Page() {
+  const { user, loading } = useUser();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!(user || loading)) {
+      router.push("/login");
+    }
+  }, [user, loading]);
+
+  return <p>Redirecting...</p>;
+}
+```
+
+```tsx
+useEffect(() => {
+  setCount(0)
+}, [router.query.slug])
+```
+
+```tsx
+import { useMemo } from "react";
+
+export function ExpensiveComponent({ data }: { data: [] }) {
+  const processedData = useMemo(() => {
+    // Expensive computation
+    return data.map((item) => item * 2);
+  }, [data]);
+
+  return <div>{processedData.join(", ")}</div>;
+}
+```
+
+## SEPARATOR XD
+
+```tsx
+const promise1: Promise<number> = Promise.resolve(3);
+const promise2: Promise<number> = Promise.resolve(42);
+const promise3: Promise<string> = new Promise((resolve) => {
+  setTimeout(resolve, 100, "foo");
+});
+
+type MyAsyncParams = {
+  promise1: Promise<number>;
+  promise2: Promise<number>;
+  promise3: Promise<string>;
+};
+
+const mySuperCrazyFunction = async ({
+  promise1,
+  promise2,
+  promise3,
+}: MyAsyncParams) => {
+  const values = await Promise.all([promise1, promise2, promise3]);
+  console.log(values);
+};
+
+const useMySuperCrazyHook = ({
+  dep1,
+  dep2,
+  dep3,
+}: {
+  dep1: Promise<number>;
+  dep2: Promise<number>;
+  dep3: Promise<string>;
+}) => {
+  useEffect(() => {
+    const callSuperCrazyFunct = async () => {
+      await mySuperCrazyFunction({
+        promise1: dep1,
+        promise2: dep2,
+        promise3: dep3,
+      });
+    };
+
+    callSuperCrazyFunct();
+  }, [dep1, dep2, dep3]);
+};
+
+export { promise1, promise2, promise3, useMySuperCrazyHook };
